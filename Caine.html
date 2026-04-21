@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Amazing Digital Space - Caine's Domain</title>
+    <style>
+        /* Alapstílusok - HÁTTÉR CSERÉLVE */
+        body, html {
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+            font-family: 'Courier New', Courier, monospace;
+            /* AZ ÚJ HÁTTÉR FÁJL ÉS EGY SÖTÉTÍTŐ RÉTEG, HOGY LÁTSZÓDJON A SZÖVEG */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('hatter.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Ez menő görgetési effektet ad */
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Fő szekciók maradtak */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Caine színei maradtak */
+        h1 {
+            color: #ff0000;
+            text-shadow: 3px 3px #3498db;
+            font-size: 3rem;
+            text-transform: uppercase;
+        }
+
+        .intro-text {
+            max-width: 600px;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #ecf0f1;
+        }
+
+        /* Gomb maradt */
+        .scroll-btn {
+            background: #ff0000;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        .scroll-btn:hover {
+            transform: scale(1.1);
+            background: #c0392b;
+        }
+
+        /* YT doboz maradt */
+        .yt-box {
+            background: rgba(26, 26, 26, 0.8); /* Kicsit áttetszőbb */
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid #3498db;
+            backdrop-filter: blur(5px); /* Modern blur effekt */
+        }
+
+        .yt-link {
+            color: #ff0000;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Plüss kép stílusa maradt */
+        .caine-img {
+            max-width: 350px;
+            height: auto;
+            border-radius: 20px;
+            margin: 20px auto;
+            display: block;
+            filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.5));
+        }
+
+        /* Remember Me maradt (de sötétebb, hogy a háttéren se látszódjon) */
+        .remember-me {
+            margin-top: 50px;
+            font-size: 0.8rem;
+            color: #1a1a1a;
+            text-decoration: none;
+            transition: color 0.5s;
+            cursor: default;
+        }
+
+        .remember-me:hover {
+            color: #444;
+            cursor: pointer;
+        }
+
+        /* --- FAKE LOADING SCREEN STÍLUSA (ÚJ!) --- */
+        #loading-screen {
+            display: none; /* Alapból rejtve */
+            background-color: #000;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 2000; /* Minden felett */
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: #ff0000;
+            font-family: monospace;
+        }
+
+        .loader-bar {
+            width: 300px;
+            height: 20px;
+            background: #111;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .loader-progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, #ff0000, #3498db);
+            border-radius: 8px;
+            transition: width 0.1s linear; /* Sima animáció */
+        }
+
+        /* --- TITKOS OLDAL STÍLUSA (Cserélve a képre) --- */
+        #secret-page {
+            display: none; /* Alapból rejtve */
+            background-color: #000;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .glitch-text {
+            color: #00ff00;
+            font-family: monospace;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+        }
+
+        /* ÚJ: Mérges Caine kép stílusa */
+        .merges-caine-img {
+            max-width: 400px;
+            height: auto;
+            border-radius: 20px;
+            filter: drop-shadow(0 0 30px rgba(0, 255, 0, 0.5)); /* Zöld fény */
+            animation: shake 0.5s infinite; /* Reszketés */
+        }
+
+        /* Reszketés animáció */
+        @keyframes shake {
+            0% { transform: translate(1px, 1px); }
+            50% { transform: translate(-1px, -1px); }
+            100% { transform: translate(1px, 1px); }
+        }
+
+        /* Blink animáció maradt */
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.1; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <section id="home">
+        <h1>Üdvözöllek a Digitális Valóságban!</h1>
+        <p class="intro-text">
+            Ne aggódj, minden a legnagyobb rendben. Ez itt egy tiszta, biztonságos és teljesen kontrollált környezet. Nincsenek hibák, csak lehetőségek!
+        </p>
+        <button class="scroll-btn" onclick="document.getElementById('content').scrollIntoView();">Lépj beljebb</button>
+    </section>
+
+    <section id="content">
+        <div class="yt-box">
+            <h2>A Csatorna</h2>
+            <a href="https://www.youtube.com/@ADOGLOTTMASINISZTA" target="_blank" class="yt-link">ADOGLOTTMASINISZTA</a>
+            <p style="margin-top: 15px; color: #888;">Kattints a feliratkozáshoz!</p>
+        </div>
+
+        <div style="margin-top: 50px;">
+            <img src="caine-plush-1.png" alt="Caine Plüss" class="caine-img">
+            <p class="intro-text">Ez a plüss figyeli minden mozdulatod. Még akkor is, ha nem látod a szemét.</p>
+        </div>
+
+        <a href="javascript:void(0)" class="remember-me" onclick="startFakeLoad()">REMEMBER ME</a>
+    </section>
+
+    <div id="loading-screen">
+        <h2 style="margin:0; text-shadow: 0 0 10px #ff0000;">BETÖLTÉS ALATT...</h2>
+        <p style="color: #3498db; margin: 10px 0;">Valóság ellenőrzése...</p>
+        <div class="loader-bar">
+            <div id="loader-progress" class="loader-progress"></div>
+        </div>
+    </div>
+
+    <div id="secret-page">
+        <h2 class="glitch-text" style="animation: blink 1s infinite;">Rendszerhiba!</h2>
+        <img src="mergescaine.png" alt="Mérges Caine" class="merges-caine-img">
+        <p style="color: #333; font-style: italic; margin-top: 20px;">A kijárat egy hazugság.</p>
+        <button onclick="hideSecret()" style="background: none; border: 1px solid #111; color: #111; margin-top: 20px; cursor: pointer;">Vissza</button>
+    </div>
+
+    <script>
+        // --- FAKE LOADING FUNKCIÓ (ÚJ!) ---
+        function startFakeLoad() {
+            // Megjelenítjük a loading screent
+            document.getElementById('loading-screen').style.display = 'flex';
+            
+            let progress = 0;
+            const progressBar = document.getElementById('loader-progress');
+            
+            // 3 másodperc alatt tölt be
+            const interval = setInterval(() => {
+                progress += 3.33; // 100/30 (3 másodperc 100ms-os lépésekben)
+                progressBar.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    // Amikor betöltött, elrejtjük a loadingot és mutatjuk a titkosat
+                    document.getElementById('loading-screen').style.display = 'none';
+                    showSecret();
+                }
+            }, 100); // 100ms-onként frissítünk
+        }
+
+        // --- TITKOS OLDAL FUNKCIÓI (Maradtak, de Mérges Caine-nel) ---
+        function showSecret() {
+            document.getElementById('secret-page').style.display = 'flex';
+        }
+        function hideSecret() {
+            document.getElementById('secret-page').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>            
